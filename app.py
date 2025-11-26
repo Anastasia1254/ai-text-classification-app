@@ -13,9 +13,6 @@ app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'static/wordclouds'
 
 
-# -----------------------
-# Функції для роботи з базою даних
-# -----------------------
 def save_article(title, text, summary):
     conn = sqlite3.connect('articles.db')
     c = conn.cursor()
@@ -56,9 +53,6 @@ def get_article(id):
     return art
 
 
-# -----------------------
-# Функція для генерації WordCloud
-# -----------------------
 def generate_wordcloud(text, save_path):
     font_path = os.path.abspath(os.path.join('fonts', 'DejaVuSans.ttf'))
 
@@ -85,9 +79,6 @@ def generate_wordcloud(text, save_path):
     return save_path
 
 
-# -----------------------
-# Reports – AI обробка
-# -----------------------
 def get_ai_results():
     """Повертає список з текстом, summary та фейковим sentiment."""
     articles = get_articles()
@@ -110,9 +101,6 @@ def get_ai_results():
     return results
 
 
-# -----------------------
-# Routes
-# -----------------------
 @app.route('/')
 def index():
     articles = get_articles()
@@ -169,9 +157,6 @@ def download(id):
     return send_file(pdf, download_name=f"{art[1]}.pdf", as_attachment=True)
 
 
-# -----------------------
-# 📊 Reports Routes
-# -----------------------
 
 @app.route('/reports')
 def reports():
@@ -200,8 +185,5 @@ def reports_json():
     return jsonify(articles)
 
 
-# -----------------------
-# Запуск серверу
-# -----------------------
 if __name__ == '__main__':
     app.run(debug=True)
