@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ article[1] }} - Живий Пергамент</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lora&display=swap" rel="stylesheet">
+    <style>
+        body { background-color: #FBFBF6; font-family:'Lora', serif; color:#000; }
+        .masthead { text-align:center; font-family:'Playfair Display', serif; font-size:2rem; font-weight:700; color:#8B0000; margin-top:20px; }
+        .columns { column-count: 3; column-gap: 30px; margin-top:30px; font-size:0.95rem; line-height:1.5; }
+        .dropcap:first-letter { font-size:3rem; font-weight:bold; color:#8B0000; float:left; line-height:1; margin-right:5px; }
+        .decor-line { border-top:1px solid #8B0000; margin:20px 0; }
+        .summary-box { display:none; background:#FFF8E7; padding:20px; border-left:3px solid #8B0000; margin-top:20px; }
+        .wordcloud { max-width:100%; margin-top:15px; }
+        button { background-color:#8B0000; color:#fff; margin-top:20px; }
+        button:hover { background-color:#5a0000; }
+    </style>
+</head>
+<body>
+<div class="container mt-5">
+    <div class="masthead">{{ article[1] }}</div>
+    
+    <div class="columns dropcap">
+        {{ article[2] }}
+    </div>
+
+    <div class="decor-line"></div>
+
+    <button id="summarize-btn" class="btn btn-lg">Показати Summary та WordCloud</button>
+    <div class="summary-box" id="summary-box">
+        <h4>Summary:</h4>
+        <p>{{ article[3] or '' }}</p>
+        {% if wordcloud_path %}
+        <img class="wordcloud" src="{{ wordcloud_path }}" alt="WordCloud">
+        {% endif %}
+    </div>
+
+    <div class="mt-4">
+        <a href="{{ url_for('download', id=article[0]) }}" class="btn btn-outline-dark btn-lg">Скачати PDF</a>
+        <a href="{{ url_for('index') }}" class="btn btn-secondary btn-lg">Назад</a>
+    </div>
+</div>
+
+<script>
+document.getElementById('summarize-btn').onclick = function() {
+    const box = document.getElementById('summary-box');
+    box.style.display = box.style.display === 'block' ? 'none' : 'block';
+};
+</script>
+</body>
+</html>
